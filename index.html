@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="css/sequence.css">
   <link rel="stylesheet" href="css/rhythmclick.css">
   <link rel="stylesheet" href="css/progresstiming.css">
+  <link rel="stylesheet" href="css/memorygrid.css">
 </head>
 <body>
 
@@ -72,7 +73,7 @@
       <div class="header-right">
         <div class="header-status">
           <span class="status-badge">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ff9a3c" stroke-width="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ff9a3c" stroke-width="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M9 16.55a7 7 0 0 1 6 0"/></svg>
             ONLINE
           </span>
           <span class="status-badge">
@@ -115,14 +116,14 @@
             <p class="lobby-sub">Cada módulo entrena un vector cognitivo distinto. Elige un objetivo y ejecuta el protocolo.</p>
             <div class="lobby-pills">
               <span class="lobby-pill lobby-pill--active">
-                <span class="lobby-pill-dot"></span><span id="modsCountPill">10</span> MÓDULOS ACTIVOS
+                <span class="lobby-pill-dot"></span><span id="modsCountPill">11</span> MÓDULOS ACTIVOS
               </span>
               <span class="lobby-pill">⚡ SESIÓN EN CURSO</span>
               <span class="lobby-pill">🎯 DIFICULTAD ADAPTATIVA</span>
             </div>
           </div>
           <div class="lobby-stats">
-            <div>TOTAL_MODS: <span id="modsCountStats" style="color:#ff9a3c">10</span></div>
+            <div>TOTAL_MODS: <span id="modsCountStats" style="color:#ff9a3c">11</span></div>
             <div>STATUS: <span style="color:#ff9a3c">ACCESIBLE</span></div>
             <div>SESIÓN: <span style="color:#f97316">ACTIVA</span></div>
           </div>
@@ -400,6 +401,32 @@
             <div class="card-bottom-glow"></div>
           </button>
 
+          <button class="game-card" data-game="memorygrid" data-tags="MEMORIA" style="--accent:#34d399">
+            <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">11</span>
+              <span class="card-icon-lg">🧩</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">MEMORIA</span>
+              </div>
+              <h3 class="card-name">Memory Grid</h3>
+              <p class="card-desc">Memoriza las casillas iluminadas en segundos, luego repite el patrón exacto. Dificultad escalable.</p>
+              <span class="card-record-badge" data-record="memorygrid" hidden></span>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="4" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
 
           <button class="game-card" data-game="skillchecks" data-tags="ROTACIÓN" style="--accent:#facc15">
                         <div class="card-border"></div>
@@ -409,7 +436,7 @@
             <div class="card-accent-strip"></div>
             <div class="card-hero">
               <div class="card-hero-bg"></div>
-              <span class="card-num">11</span>
+              <span class="card-num">12</span>
               <span class="card-icon-lg">⚡</span>
             </div>
             <div class="card-body">
@@ -427,12 +454,6 @@
             </div>
             <div class="card-bottom-glow"></div>
           </button>
-                    <div class="game-card game-card--locked">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.25;margin-bottom:10px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <p class="locked-label">MÓDULO BLOQUEADO</p>
-            <p class="locked-sub">Próximamente</p>
-          </div>
-
 
         </div>
 
@@ -451,7 +472,48 @@
       </div>
     </section>
 
-    <!-- ── Game sections (keep all existing content, add back nav) ── -->
+    <!-- ── Memory Grid ── -->
+    <section id="memorygrid" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="memorygrid-container">
+          <div>
+            <h2 style="text-align: center; color: #00ff64; margin-bottom: 0.5rem;">Memory Grid</h2>
+            <p style="text-align: center; color: rgba(0, 255, 100, 0.7); margin-bottom: 1.5rem;">Memoriza las casillas. Presiona ESC para volver.</p>
+          </div>
+
+          <div class="memorygrid-stats">
+            <div class="memorygrid-stat">
+              <div class="memorygrid-stat-label">Nivel</div>
+              <div class="memorygrid-stat-value" id="memorygridLevel">1</div>
+            </div>
+            <div class="memorygrid-stat">
+              <div class="memorygrid-stat-label">Puntuación</div>
+              <div class="memorygrid-stat-value" id="memorygridScore">0</div>
+            </div>
+            <div class="memorygrid-stat">
+              <div class="memorygrid-stat-label">Errores</div>
+              <div class="memorygrid-stat-value" id="memorygridMistakes">0</div>
+            </div>
+            <div class="memorygrid-stat">
+              <div class="memorygrid-stat-label">Tiempo</div>
+              <div class="memorygrid-stat-value" id="memorygridTimer">0</div>
+            </div>
+          </div>
+
+          <div id="memorygridBoard" class="memorygrid-board"></div>
+
+          <div class="memorygrid-status" id="memorygridStatus">Presiona iniciar para comenzar.</div>
+
+          <button class="memorygrid-button" id="startMemoryGrid">Iniciar Juego</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Game sections (keep all existing content) ── -->
 
     
     <section id="termita" class="view hidden">
@@ -998,1085 +1060,230 @@
 
               <div class="unlocked-divider"></div>
 
-              <div class="unlocked-toggle-row">
-                <label for="unlockedShowTargets">Mostrar pistas</label>
-                <label class="unlocked-toggle">
-                  <input type="checkbox" id="unlockedShowTargets" checked>
-                  <span class="unlocked-toggle-track"></span>
-                </label>
-              </div>
-
-              <div class="unlocked-toggle-row">
-                <label for="unlockedShowLabels">Etiquetas de color</label>
-                <label class="unlocked-toggle">
-                  <input type="checkbox" id="unlockedShowLabels">
-                  <span class="unlocked-toggle-track"></span>
-                </label>
-              </div>
-
-              <div class="unlocked-divider"></div>
-
-              <!-- Penalty system -->
               <div class="ctrl-group">
-                <label for="unlockedPenaltyValue">Penalización por error</label>
-                <select id="unlockedPenaltyValue">
-                  <option value="0">Sin penalización</option>
-                  <option value="3">−3 s (requiere tiempo)</option>
-                  <option value="5" selected>−5 s (requiere tiempo)</option>
-                  <option value="10">−10 s (requiere tiempo)</option>
-                  <option value="15">−15 s (requiere tiempo)</option>
-                </select>
+                <label class="checkbox-row">
+                  <input type="checkbox" id="unlockedShowTargets" checked>
+                  <span>Mostrar objetivos iniciales</span>
+                </label>
+                <label class="checkbox-row">
+                  <input type="checkbox" id="unlockedShowLabels">
+                  <span>Mostrar etiquetas de anillo</span>
+                </label>
               </div>
 
-              <div class="unlocked-divider"></div>
-
-              <button class="btn-primary" id="startUnlocked">INICIAR</button>
+              <button id="startUnlocked" class="unlocked-start-btn">Iniciar Juego</button>
 
             </div>
+
           </div>
+
         </div>
       </div>
     </section>
 
-<section id="skillchecks" class="view hidden">
-<div class="skillcheck-selector">
-    <button class="back-btn" onclick="window.backToMenu('home')">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-    <polyline points="15 18 9 12 15 6"/>
-  </svg>
-  Volver al lobby
- </button>
+    <!-- ── Skillchecks ── -->
+    <section id="skillchecks" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
 
-<div class="skill-cube" data-game="rapidlines">
-        <img
-        class="cube-icon"
-        src="assets/icons/rapid-lines.svg"
-        alt="Rapid Lines">
-    <span class="cube-title">Rapid Lines</span>
-    <div class="bottom-glow"></div>
+        <div class="skillcheck-card">
+          <h2>Skill Checks</h2>
+          <p>Pulsa el botón cuando la barra alcance la zona verde. ¡Máxima precisión!</p>
 
-  </div>
-  <div class="skill-cube" data-game="circle">
-        <img
-        class="cube-icon"
-        src="assets/icons/circle.svg"
-        alt="circle">
-    <span class="cube-title">Circle</span>
-    <div class="bottom-glow"></div>
-  </div>
+          <div class="skillcheck-stats">
+            <div class="skillcheck-stat">
+              <span class="skillcheck-stat-label">Puntuación</span>
+              <span class="skillcheck-stat-value" id="skillcheckScore">0</span>
+            </div>
+            <div class="skillcheck-stat">
+              <span class="skillcheck-stat-label">Racha</span>
+              <span class="skillcheck-stat-value" id="skillcheckStreak">0</span>
+            </div>
+            <div class="skillcheck-stat">
+              <span class="skillcheck-stat-label">Intentos</span>
+              <span class="skillcheck-stat-value" id="skillcheckAttempts">0</span>
+            </div>
+          </div>
 
-<div class="skill-cube" data-game="maze">
-    <img
-        class="cube-icon"
-        src="assets/icons/maze.svg"
-        alt="Maze">
-    <span class="cube-title">Maze</span>
-    <div class="bottom-glow"></div>
-</div>
+          <div class="skillcheck-board">
+            <svg class="skillcheck-circle" viewBox="0 0 200 200" id="skillcheckCircle">
+              <circle cx="100" cy="100" r="90" class="skillcheck-bg" />
+              <circle cx="100" cy="100" r="90" class="skillcheck-progress" id="skillcheckProgress" />
+            </svg>
+            <div class="skillcheck-zone skillcheck-zone--green" id="skillcheckZoneGreen"></div>
+            <div class="skillcheck-zone skillcheck-zone--yellow" id="skillcheckZoneYellow"></div>
+            <div class="skillcheck-zone skillcheck-zone--red" id="skillcheckZoneRed"></div>
+          </div>
 
-  <div class="skill-cube" data-game="keyspam">
-        <img
-        class="cube-icon"
-        src="assets/icons/key-spam.svg"
-        alt="keys pam">
-    <span class="cube-title">Key Spam</span>
-    <div class="bottom-glow"></div>
-  </div>
+          <div class="skillcheck-controls">
+            <label>Dificultad:
+              <select id="skillcheckDifficulty">
+                <option value="easy">Fácil</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Difícil</option>
+                <option value="extreme">Extremo</option>
+              </select>
+            </label>
+            <label>Rondas:
+              <input type="number" id="skillcheckRounds" min="1" max="20" value="5" />
+            </label>
+            <button id="startSkillchecks" class="skillcheck-start-btn">Iniciar</button>
+          </div>
 
-  <div class="skill-cube" data-game="sequence">
-        <img
-        class="cube-icon"
-        src="assets/icons/sequence.svg"
-        alt="sequence">
-    <span class="cube-title">Sequence</span>
-    <div class="bottom-glow"></div>
-  </div>
-
-  <div class="skill-cube" data-game="rhythmclick">
-        <img
-        class="cube-icon"
-        src="assets/icons/rhythm-click.svg"
-        alt="Rhythm Click">
-    <span class="cube-title">Rhythm Click</span>
-    <div class="bottom-glow"></div>
-    </div>
-
-    <div class="skill-cube" data-game="progresstiming">
-        <img
-        class="cube-icon"
-        src="assets/icons/progress-timing.svg"
-        alt="Progress timing">
-    <span class="cube-title">Progress timing</span>
-    <div class="bottom-glow"></div>
-  </div>
-
-    <div class="skill-cube" data-game="Skillbar">
-        <img
-        class="cube-icon"
-        src="assets/icons/skill-bar.svg"
-        alt="Skill bar">
-    <span class="cube-title">Skill bar</span>
-    <div class="bottom-glow"></div>
-  </div>
-
-  </div>
-</div>
-
-</section>
-<section id="circle-game" class="view hidden">
-  <div class="game-view-inner">
-    <button class="back-btn" onclick="window.backToMenu('skillchecks')">
-      ← Volver
-    </button>
-    <div class="circle-card">
-      <h2>Circle Skill Check</h2>
-      <div class="circle-wrapper">
-      <div class="circle-ring">
-          <div id="circleTarget"></div>
-          <div id="circleNeedle"></div>
+          <div class="skillcheck-message" id="skillcheckMessage">Presiona iniciar para comenzar.</div>
+          <button id="skillcheckButton" class="skillcheck-action-btn" disabled>PULSA (ESPACIO)</button>
+        </div>
       </div>
+    </section>
+
+    <!-- Maze -->
+    <section id="maze-game" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="card">
+          <h2>Maze</h2>
+          <div class="maze-container">
+            <canvas id="maze-canvas"></canvas>
+          </div>
+          <div class="maze-info">
+            <span id="mazeLevel">Nivel: 1</span>
+            <span id="mazeTime">Tiempo: 0.0s</span>
+            <span id="mazeScore">Puntuación: 0</span>
+          </div>
+          <div class="maze-controls">
+            <label>Dificultad:
+              <select id="mazeDifficulty">
+                <option value="easy">Fácil</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Difícil</option>
+              </select>
+            </label>
+            <button id="startMaze">Iniciar Laberinto</button>
+          </div>
+          <div id="mazeMessage" class="maze-message"></div>
+        </div>
       </div>
-      <button id="startCircle">Empezar</button>
-                      <div class="circle-stats">
-                    <div>
-                        Score
-                        <span id="circleScore">0</span>
-                    </div>
-                    <div>
-                        Combo
-                        <span id="circleCombo">0</span>
-                    </div>
-                    <div>
-                        Best
-                        <span id="circleBest">0</span>
-                    </div>
-                </div>
-      <div id="circleResult"></div>
-    </div>
-  </div>
-</section>
+    </section>
 
-
-
-
-<section id="rapidlines-game" class="view hidden">
-    <div class="rapid-card">
-        <button class="back-btn"
-                onclick="window.backToMenu('skillchecks')">
-            ← Volver
+    <!-- KeySpam -->
+    <section id="keyspam-game" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
         </button>
-        <h2>Rapid Lines</h2>
-        <div class="rapid-hud">
-            <div class="hud-box">
-                <span>Score</span>
-                <strong id="rapidScore">0</strong>
-            </div>
-            <div class="hud-box">
-                <span>Combo</span>
-                <strong id="rapidCombo">0</strong>
-            </div>
-            <div class="hud-box">
-                <span>Best</span>
-                <strong id="rapidBest">0</strong>
-              </div>
-                    <div class="hud-box">
-                  <span>Tiempo</span>
-                  <strong id="rapidTime">60</strong>
-                  </div>
-                  <div class="hud-box">
-                  <span>Precisión</span>
-                  <strong id="rapidAccuracy">100%</strong>
-              </div>
+        <div class="card">
+          <h2>Key Spam</h2>
+          <p>Pulsa las teclas SPACE tan rápido como sea posible durante 10 segundos.</p>
+          <div class="keyspam-info">
+            <span id="keyspamScore">Pulsaciones: 0</span>
+            <span id="keyspamTime">Tiempo: 10s</span>
+            <span id="keyspamRate">Velocidad: 0 p/s</span>
+          </div>
+          <button id="startKeyspam">Iniciar</button>
+          <div id="keyspamMessage" class="result"></div>
         </div>
-        <div id="rapidArena">
-          <div id="rapidOverlay"></div>
-            <div id="rapidCenter"></div>
-            <div id="rapidEffects"></div>
-            <div id="rapidGameOver" class="hidden">
-              <h2>GAME OVER</h2>
-               <p id="rapidGameOverText"></p>
-                <button id="rapidRestart">
-                   Reintentar
-              </button>
-               <button id="rapidBack">
-              Volver
-              </button>
-         </div>
-        </div>
+      </div>
+    </section>
 
-      <div class="rapid-config">
-
-    <div class="config-item">
-        <label>Velocidad inicial</label>
-        <input id="cfgStartSpeed" type="number" step="0.1" value="6">
-    </div>
-
-    <div class="config-item">
-        <label>Aceleración</label>
-        <input id="cfgSpeedIncrease" type="number" step="0.05" value="0.15">
-    </div>
-
-    <div class="config-item">
-        <label>Velocidad máxima</label>
-        <input id="cfgMaxSpeed" type="number" step="0.5" value="14">
-    </div>
-
-    <div class="config-item">
-        <label>Flechas</label>
-        <input id="cfgMaxArrows" type="number" min="1" value="1">
-    </div>
-
-    <div class="config-item">
-        <label>Tiempo</label>
-        <input id="cfgTime" type="number" min="5" value="60">
-    </div>
-
-    <div class="config-buttons">
-      
-            <button id="saveRapidConfig">
-            Guardar
+    <!-- Sequence -->
+    <section id="sequence" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
         </button>
+        <div class="card">
+          <h2>Sequence</h2>
+          <p>Repite la secuencia visual más larga posible. Cada nivel la secuencia es más larga y más rápida.</p>
+          <div class="sequence-info">
+            <span id="sequenceLevel">Nivel: 1</span>
+            <span id="sequenceLength">Longitud: 0</span>
+            <span id="sequenceScore">Puntuación: 0</span>
+          </div>
+          <div id="sequenceBoard" class="sequence-board"></div>
+          <button id="startSequence">Iniciar</button>
+          <div id="sequenceMessage" class="result"></div>
+        </div>
+      </div>
+    </section>
 
-        <button id="resetRapidConfig">
-            Restablecer
+    <!-- Rhythm Click -->
+    <section id="rhythmclick" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
         </button>
-    </div>
-</div>
-        <button id="startRapid">
-            Empezar
+        <div class="card">
+          <h2>Rhythm Click</h2>
+          <p>Haz clic al ritmo de los pulsos que aparecen. Sincroniza tus clics con la música.</p>
+          <div class="rhythmclick-info">
+            <span id="rhythmclickCombo">Combo: 0</span>
+            <span id="rhythmclickScore">Puntuación: 0</span>
+          </div>
+          <div id="rhythmclickBoard" class="rhythmclick-board"></div>
+          <button id="startRhythmClick">Iniciar</button>
+          <div id="rhythmclickMessage" class="result"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Timing -->
+    <section id="progresstiming" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
         </button>
-        <div id="rapidResult"></div>
-    </div>
-</section>
- 
-
-
-<section id="maze-game" class="view hidden">
-    <div class="maze-card">
-        <button class="back-btn"
-                onclick="window.backToMenu('skillchecks')">
-            ← Volver
-        </button>
-        <h2>Maze</h2>
-        <div class="maze-hud">
-            <div class="hud-box">
-                <span>Nivel</span>
-                <strong id="mazeLevel">1</strong>
-            </div>
-            <div class="hud-box">
-                <span>Tiempo</span>
-                <strong id="mazeTime">60</strong>
-            </div>
-            <div class="hud-box">
-                <span>Movimientos</span>
-                <strong id="mazeMoves">0</strong>
-            </div>
+        <div class="card">
+          <h2>Progress Timing</h2>
+          <p>Detén la barra de progreso en el momento exacto. Requiere precisión temporal.</p>
+          <div class="progresstiming-info">
+            <span id="progresstimingScore">Puntuación: 0</span>
+            <span id="progresstimingLevel">Nivel: 1</span>
+          </div>
+          <div id="progresstimingBoard" class="progresstiming-board"></div>
+          <button id="startProgressTiming">Iniciar</button>
+          <div id="progresstimingMessage" class="result"></div>
         </div>
-<div id="mazeBoard">
-
-    <div id="mazeContainer">
-
-        <div id="mazeGrid"></div>
-        <div id="mazeFog"></div>
-        <div id="mazeEffects"></div>
-        <div id="mazePlayer"></div>
-
-    </div>
-
-</div>
-        <button id="startMaze">
-            Empezar
-        </button>
-        <div id="mazeResult"></div>
-    </div>
-</section>
-
-
-<section id="keyspam-game" class="view hidden">
-    <div class="keyspam-card">
-        <button
-            class="back-btn"
-            onclick="window.backToMenu('skillchecks')">
-            ← Volver
-        </button>
-        <h2>Key Spam</h2>
-        <div class="keyspam-hud">
-            <div class="hud-box">
-                <span>Nivel</span>
-                <strong id="keyspamLevel">1</strong>
-            </div>
-            <div class="hud-box">
-                <span>Tiempo</span>
-                <strong id="keyspamTime">8</strong>
-            </div>
-            <div class="hud-box">
-                <span>Pulsaciones</span>
-                <strong id="keyspamHits">0 / 20</strong>
-            </div>
-        </div>
-        <div id="keyspamBoard">
-            <div id="keyspamKey">
-                E
-            </div>
-            <div id="keyspamProgress">
-                <div id="keyspamProgressFill"></div>
-            </div>
-            <div id="keyspamMessage">
-                Pulsa la tecla mostrada
-            </div>
-        </div>
-        <button id="startKeySpam">
-            Empezar
-        </button>
-        <div id="keyspamResult"></div>
-    </div>
-</section>
-
-
-<section id="rhythmclick" class="view hidden">
-
-    <div class="rhythm-card">
-
-        <button class="back-btn"
-                onclick="window.backToMenu('skillchecks')">
-            ← Volver
-        </button>
-
-        <h2>Rhythm Click</h2>
-
-        <div class="rhythm-hud">
-
-            <div class="hud-box">
-                <span>Nivel</span>
-                <strong id="rhythmLevel">1</strong>
-            </div>
-
-            <div class="hud-box">
-                <span>Tiempo</span>
-                <strong id="rhythmTime">30</strong>
-            </div>
-
-            <div class="hud-box">
-                <span>Puntuación</span>
-                <strong id="rhythmScore">0</strong>
-            </div>
-
-        </div>
-
-        <div id="rhythmBoard">
-
-            <div id="rhythmArena"></div>
-
-        </div>
-
-        <button id="startRhythm">
-            Empezar
-        </button>
-
-        <div id="rhythmResult"></div>
-
-    </div>
-
-</section>
-
-
-
-<!-- ==========================================================
-     PROGRESS TIMING
-========================================================== -->
-
-<div id="progresstiming"
-     class="view hidden gameContainer progressTiming">
-
-    <!-- ======================================
-         CABECERA
-    ======================================= -->
-
-    <div class="pt-header">
-
-        <button class="back-btn"
-                onclick="window.backToMenu('skillchecks')">
-            ← Volver
-        </button>
-
-        <div>
-
-            <div class="pt-title">
-                Progress Timing
-            </div>
-
-            <div class="pt-subtitle">
-                Configura la dificultad antes de comenzar
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ======================================
-         CONFIGURACIÓN
-    ======================================= -->
-
-    <div id="ptConfig" class="pt-config">
-
-        <div class="pt-body">
-
-            <!-- ==========================
-                 MODO
-            =========================== -->
-
-            <div class="pt-section">
-
-                <div class="pt-section-title">
-
-                    Modo
-
-                </div>
-
-                <div class="pt-mode">
-
-                    <button
-                        id="ptBasicMode"
-                        class="active">
-
-                        Básico
-
-                    </button>
-
-                    <button
-                        id="ptAdvancedMode">
-
-                        Avanzado
-
-                    </button>
-
-                </div>
-
-            </div>
-
-            <!-- ==========================
-                 PREVISUALIZACIÓN
-            =========================== -->
-
-            <div class="pt-section">
-
-                <div class="pt-section-title">
-
-                    Vista previa
-
-                </div>
-
-                <div class="pt-card">
-
-                    <div
-                        id="ptPreview"
-                        class="pt-preview">
-
-                        <div
-                            id="ptPreviewTrack"
-                            class="pt-track">
-
-                            <div
-                                id="ptPreviewTarget"
-                                class="pt-target">
-
-                                <div
-                                    id="ptPreviewPerfect"
-                                    class="pt-perfect">
-
-                                </div>
-
-                            </div>
-
-                            <div
-                                id="ptPreviewMarker"
-                                class="pt-marker">
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- ==========================
-                 VELOCIDAD
-            =========================== -->
-
-            <div class="pt-section">
-
-                <div class="pt-card">
-
-                    <div class="pt-label">
-
-                        <span>
-
-                            Velocidad
-
-                        </span>
-
-                        <span
-                            id="ptSpeedValue"
-                            class="pt-value">
-
-                            50%
-
-                        </span>
-
-                    </div>
-
-                    <input
-                        id="ptSpeed"
-                        class="pt-slider"
-                        type="range"
-                        min="10"
-                        max="100"
-                        value="50">
-
-                </div>
-
-            </div>
-
-            <!-- ==========================
-                 TAMAÑO
-            =========================== -->
-
-            <div class="pt-section">
-
-                <div class="pt-card">
-
-                    <div class="pt-label">
-
-                        <span>
-
-                            Tamaño de la zona
-
-                        </span>
-
-                        <span
-                            id="ptSizeValue"
-                            class="pt-value">
-
-                            20%
-
-                        </span>
-
-                    </div>
-
-                    <input
-                        id="ptZoneSize"
-                        class="pt-slider"
-                        type="range"
-                        min="5"
-                        max="35"
-                        value="20">
-
-                </div>
-
-            </div>
-
-            <!-- ==========================
-                 OPCIONES BÁSICAS
-            =========================== -->
-
-            <div class="pt-section">
-
-                <div class="pt-card">
-
-                    <div class="pt-switch">
-
-                        <span>
-
-                            Incremental
-
-                        </span>
-
-                        <label>
-
-                            <input
-                                id="ptIncremental"
-                                type="checkbox"
-                                checked>
-
-                            <span class="pt-toggle"></span>
-
-                        </label>
-
-                    </div>
-
-                    <div class="pt-switch">
-
-                        <span>
-
-                            Zona móvil
-
-                        </span>
-
-                        <label>
-
-                            <input
-                                id="ptMovingZone"
-                                type="checkbox">
-
-                            <span class="pt-toggle"></span>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </div>
-                        <!-- ======================================
-                 PANEL AVANZADO
-            ======================================= -->
-
-            <div id="ptAdvancedPanel" class="pt-advanced">
-
-                <div class="pt-section">
-
-                    <div class="pt-section-title">
-
-                        Opciones avanzadas
-
-                    </div>
-
-                    <div class="pt-grid two">
-
-                        <div class="pt-card">
-
-                            <div class="pt-switch">
-
-                                <span>Velocidad incremental</span>
-
-                                <label>
-
-                                    <input
-                                        id="ptIncSpeed"
-                                        type="checkbox"
-                                        checked>
-
-                                    <span class="pt-toggle"></span>
-
-                                </label>
-
-                            </div>
-
-                        </div>
-
-                        <div class="pt-card">
-
-                            <div class="pt-switch">
-
-                                <span>Tamaño incremental</span>
-
-                                <label>
-
-                                    <input
-                                        id="ptIncSize"
-                                        type="checkbox"
-                                        checked>
-
-                                    <span class="pt-toggle"></span>
-
-                                </label>
-
-                            </div>
-
-                        </div>
-
-                        <div class="pt-card">
-
-                            <div class="pt-switch">
-
-                                <span>Movimiento incremental</span>
-
-                                <label>
-
-                                    <input
-                                        id="ptIncMove"
-                                        type="checkbox"
-                                        checked>
-
-                                    <span class="pt-toggle"></span>
-
-                                </label>
-
-                            </div>
-
-                        </div>
-
-                        <div class="pt-card">
-
-                            <div class="pt-switch">
-
-                                <span>Zona Perfect</span>
-
-                                <label>
-
-                                    <input
-                                        id="ptPerfectEnabled"
-                                        type="checkbox"
-                                        checked>
-
-                                    <span class="pt-toggle"></span>
-
-                                </label>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- ======================================
-                 BOTONES
-            ======================================= -->
-
-            <div class="pt-buttons">
-
-                <button
-                    id="ptRandom"
-                    class="pt-btn pt-random">
-
-                    🎲 Aleatorio
-
-                </button>
-
-                <button
-                    id="ptStart"
-                    class="pt-btn pt-start">
-
-                    ▶ Iniciar
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ======================================
-         JUEGO
-    ======================================= -->
-
-    <div id="ptGame" class="pt-game">
-
-        <div class="pt-gameInfo">
-
-            <div class="pt-infoBox">
-
-                <div class="pt-infoTitle">
-
-                    Ronda
-
-                </div>
-
-                <div
-                    id="ptRound"
-                    class="pt-infoValue">
-
-                    1
-
-                </div>
-
-            </div>
-
-            <div class="pt-infoBox">
-
-                <div class="pt-infoTitle">
-
-                    Resultado
-
-                </div>
-
-                <div
-                    id="ptState"
-                    class="pt-infoValue">
-
-                    -
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="pt-trackContainer">
-
-            <div
-                id="ptTrack"
-                class="pt-track">
-
-                <div
-                    id="ptTarget"
-                    class="pt-target">
-
-                    <div
-                        id="ptPerfect"
-                        class="pt-perfect">
-
-                    </div>
-
-                </div>
-
-                <div
-                    id="ptMarker"
-                    class="pt-marker">
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div
-            id="ptResult"
-            class="pt-result">
-
-        </div>
-
-        <div class="pt-timer">
-
-            <div
-                id="ptTimerFill"
-                class="pt-timerFill">
-
-            </div>
-
-        </div>
-
-        <div
-            id="ptParticles"
-            class="pt-particles">
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<section id="sequence-game" class="view hidden">
-    <div class="sequence-card">
-        <button
-            class="back-btn"
-            onclick="window.backToMenu('skillchecks')">
-            ← Volver
-        </button>
-        <h2>Sequence</h2>
-        <!-- HUD -->
-        <div class="sequence-hud">
-            <div class="hud-box">
-                <span>Nivel</span>
-                <strong id="sequenceLevel">1</strong>
-            </div>
-            <div class="hud-box">
-                <span>Tiempo</span>
-                <strong id="sequenceTime">8</strong>
-            </div>
-            <div class="hud-box">
-                <span>Progreso</span>
-                <strong id="sequenceProgress">0 / 3</strong>
-            </div>
-        </div>
-        <!-- Zona del juego -->
-        <div id="sequenceBoard">
-            <div id="sequenceNodes">
-                <button class="sequence-node" data-id="0"></button>
-                <button class="sequence-node" data-id="1"></button>
-                <button class="sequence-node" data-id="2"></button>
-                <button class="sequence-node" data-id="3"></button>
-                <button class="sequence-node" data-id="4"></button>
-                <button class="sequence-node" data-id="5"></button>
-            </div>
-        </div>
-        <button id="startSequence">
-            Empezar
-        </button>
-        <div id="sequenceResult"></div>
-    </div>
-</section>
-
-
+      </div>
+    </section>
 
   </main>
 
-  <script src="js/leaderboardManager.js"></script>
+  <!-- Scripts -->
   <script src="js/audioManager.js"></script>
   <script src="js/backgroundManager.js"></script>
+  <script src="js/transitions.js"></script>
+  <script src="js/leaderboardManager.js"></script>
+
   <script src="js/games/termita.js"></script>
   <script src="js/games/simon.js"></script>
   <script src="js/games/arrowGame.js"></script>
-  <script src="js/games/lettersFall.js"></script>
   <script src="js/games/hackingDevice.js"></script>
+  <script src="js/games/lettersFall.js"></script>
   <script src="js/games/holematch.js"></script>
   <script src="js/games/colorcount.js"></script>
   <script src="js/games/pairs.js"></script>
-  <script src="js/games/typix.js"></script>
   <script src="js/games/unlocked.js"></script>
+  <script src="js/games/memorygrid.js"></script>
   <script src="js/games/Skillcheck.js"></script>
-  <script src="js/games/rapidlines.js"></script>
-  <script src="js/games/Maze/mazePlayer.js"></script>
-  <script src="js/games/Maze/mazeGenerator.js"></script>
-  <script src="js/games/Maze/mazeRenderer.js"></script>
-  <script src="js/games/Maze/maze.js"></script>
-  <script src="js/games/keyspam/keyspam-ui.js"></script>
-  <script src="js/games/keyspam/keyspam.js"></script>
-  <script src="js/games/sequence.js"></script>
   <script src="js/games/progresstiming.js"></script>
+  <script src="js/games/rapidlines.js"></script>
+  <script src="js/games/lockpick.js"></script>
+  <script src="js/games/typix.js"></script>
+  <script src="js/games/sequence.js"></script>
+  <script src="js/games/keyspam.js"></script>
   <script src="js/games/rhythmclick.js"></script>
+  <script src="js/games/maze.js"></script>
 
-  
   <script src="js/app.js"></script>
-  <script src="js/transitions.js"></script>
-  
-
-
-<script>
-window.StatsManager={
- get(k,d){return JSON.parse(localStorage.getItem(k)||JSON.stringify(d));},
- set(k,v){localStorage.setItem(k,JSON.stringify(v));}
-};
-</script>
-
-
-
-  <!-- ── Music Player Widget ── -->
-  <div id="musicPlayer" class="music-player" aria-label="Reproductor de música">
-    <div class="mp-track-info">
-      <span class="mp-label">♪</span>
-      <span class="mp-track-name" id="mpTrackName">—</span>
-    </div>
-    <div class="mp-controls">
-      <button class="mp-btn" id="mpPrev" title="Anterior" aria-label="Anterior">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
-      </button>
-      <button class="mp-btn mp-btn--play" id="mpPlayPause" title="Play / Pause" aria-label="Play/Pause">
-        <svg id="mpIconPlay" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <svg id="mpIconPause" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
-      </button>
-      <button class="mp-btn" id="mpNext" title="Siguiente" aria-label="Siguiente">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 5.02 3.64L8 17.14V9.86zM16 6h2v12h-2z"/></svg>
-      </button>
-    </div>
-    <div class="mp-volume">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-      <input type="range" id="mpVolume" class="mp-volume-slider" min="0" max="1" step="0.02" value="0.5" aria-label="Volumen">
-    </div>
-  </div>
-
-  <!-- ── Music Player Script ── -->
-  <script>
-  (function () {
-    const TRACKS = [
-      { file: "audio/bg_game-8-bit.mp3",        name: "Game 8-Bit" },
-      { file: "audio/bg_8-bit-game.mp3",         name: "8-Bit Game" },
-      { file: "audio/bg_that-game-arcade.mp3",   name: "That Game Arcade" },
-      { file: "audio/bg_retro-game-arcade.mp3",  name: "Retro Game Arcade" },
-      { file: "audio/bg_retro-game-music.mp3",   name: "Retro Game Music" },
-      { file: "audio/bg_8-bit-arcade-mode.mp3",  name: "8-Bit Arcade Mode" },
-      { file: "audio/bg_level-iii.mp3",          name: "Level III" },
-    ];
-
-    // Persistent state keys
-    const LS_VOL     = 'mgb_vol';
-    const LS_MUTED   = 'mgb_muted';
-    const LS_TRACK   = 'mgb_track';
-
-    const audio   = new Audio();
-    audio.loop    = false;
-    audio.preload = 'metadata';
-
-    let currentIdx = parseInt(localStorage.getItem(LS_TRACK) || '0', 10) % TRACKS.length;
-    let isPlaying  = false;
-    let unlocked   = false; // autoplay gate
-
-    const savedVol  = parseFloat(localStorage.getItem(LS_VOL) ?? '0.5');
-    const savedMute = localStorage.getItem(LS_MUTED) === '1';
-
-    audio.volume = savedVol;
-
-    // DOM refs
-    const player     = document.getElementById('musicPlayer');
-    const trackName  = document.getElementById('mpTrackName');
-    const btnPlay    = document.getElementById('mpPlayPause');
-    const btnPrev    = document.getElementById('mpPrev');
-    const btnNext    = document.getElementById('mpNext');
-    const volSlider  = document.getElementById('mpVolume');
-    const iconPlay   = document.getElementById('mpIconPlay');
-    const iconPause  = document.getElementById('mpIconPause');
-
-    volSlider.value = savedVol;
-
-    function loadTrack(idx, play) {
-      currentIdx = ((idx % TRACKS.length) + TRACKS.length) % TRACKS.length;
-      localStorage.setItem(LS_TRACK, currentIdx);
-      audio.src = TRACKS[currentIdx].file;
-      trackName.textContent = TRACKS[currentIdx].name;
-      if (play && unlocked) {
-        audio.play().catch(() => {});
-        setPlaying(true);
-      }
-    }
-
-    function setPlaying(state) {
-      isPlaying = state;
-      iconPlay.style.display  = state ? 'none'   : '';
-      iconPause.style.display = state ? ''       : 'none';
-      localStorage.setItem(LS_MUTED, state ? '0' : '1');
-    }
-
-    function togglePlay() {
-      if (!unlocked) return; // should not happen, but guard
-      if (isPlaying) {
-        audio.pause();
-        setPlaying(false);
-      } else {
-        audio.play().catch(() => {});
-        setPlaying(true);
-      }
-    }
-
-    // Auto-advance
-    audio.addEventListener('ended', () => loadTrack(currentIdx + 1, true));
-
-    // Controls
-    btnPlay.addEventListener('click', togglePlay);
-    btnPrev.addEventListener('click', () => { loadTrack(currentIdx - 1, isPlaying || unlocked); });
-    btnNext.addEventListener('click', () => { loadTrack(currentIdx + 1, isPlaying || unlocked); });
-
-    // Volume
-    volSlider.addEventListener('input', () => {
-      audio.volume = parseFloat(volSlider.value);
-      localStorage.setItem(LS_VOL, volSlider.value);
-    });
-
-    // Unlock & auto-start on first user interaction
-    function unlock() {
-      if (unlocked) return;
-      unlocked = true;
-      const startMuted = savedMute; // respect previous session preference
-      if (!startMuted) {
-        audio.play().then(() => setPlaying(true)).catch(() => {});
-      }
-      document.removeEventListener('click',   unlock);
-      document.removeEventListener('keydown', unlock);
-    }
-    document.addEventListener('click',   unlock);
-    document.addEventListener('keydown', unlock);
-
-    // Initial load (no auto-play yet — browser blocks it)
-    loadTrack(currentIdx, false);
-  })();
-  </script>
 </body>
 </html>
