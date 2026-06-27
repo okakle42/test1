@@ -45,7 +45,7 @@ backgroundManager.init();
       "stopKeySpam", "stopProgressTiming", "stopRhythm", "stopSequence",
       "stopRapidLines", "stopCircle", "stopArrow", "stopColorCount",
       "stopHoleMatch", "stopSimon", "stopHacking", "stopLettersFall",
-      "stopPairs", "stopTypix", "stopUnlocked"
+      "stopPairs", "stopTypix", "stopUnlocked", "stopMemoryGrid"
     ];
     stopFns.forEach(fn => { try { if (typeof window[fn] === "function") window[fn](); } catch(e) {} });
     setTimeout(() => { window.showView(id); }, 80);
@@ -249,6 +249,12 @@ backgroundManager.init();
     nextRingBtn:     document.getElementById('unlockedNextRing'),
   };
   if (window.initUnlocked) initUnlocked(unlockedUi);
+
+  // ── Memory Grid ──
+  const memorygridUi = {
+    startButton: document.getElementById('startMemoryGrid')
+  };
+  if (window.initMemoryGrid) initMemoryGrid(memorygridUi);
 
   // ── Start pairs game when view becomes visible ──
   const _origShowView = window.showView;
