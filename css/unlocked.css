@@ -1,0 +1,281 @@
+/* ── Unlocked game ── */
+#unlocked .game-view-inner {
+  max-width: 860px;
+}
+
+.unlocked-layout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .unlocked-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Canvas wrapper */
+.unlocked-canvas-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+#unlockedCanvas {
+  display: block;
+  border-radius: 12px;
+  border: 1px solid rgba(249,115,22,0.15);
+  background: #090400;
+  box-shadow: 0 0 40px rgba(249,115,22,0.06), 0 4px 24px rgba(0,0,0,0.5);
+  cursor: pointer;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+}
+
+/* HUD bar below canvas */
+.unlocked-hud {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(220,165,100,0.55);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.unlocked-hud-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.unlocked-hud-val {
+  color: #ff9a3c;
+  font-weight: 700;
+}
+
+#unlockedTimer[data-urgent="true"] {
+  color: #f43f5e !important;
+  animation: pulse 0.5s ease-in-out infinite;
+}
+
+/* Ring selector */
+.unlocked-ring-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(220,165,100,0.60);
+  letter-spacing: 0.1em;
+}
+
+.unlocked-ring-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(249,115,22,0.30);
+  background: rgba(249,115,22,0.06);
+  color: #ff9a3c;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.unlocked-ring-btn:hover {
+  background: rgba(249,115,22,0.14);
+  border-color: rgba(249,115,22,0.50);
+}
+
+#unlockedRingIndicator {
+  min-width: 80px;
+  text-align: center;
+  color: #ff9a3c;
+  font-weight: 700;
+}
+
+/* Controls panel */
+.unlocked-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 200px;
+}
+
+.unlocked-controls .ctrl-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.unlocked-controls label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(220,165,100,0.50);
+  text-transform: uppercase;
+}
+
+.unlocked-controls input[type="number"],
+.unlocked-controls select {
+  width: 100%;
+  padding: 6px 10px;
+  background: rgba(249,115,22,0.06);
+  border: 1px solid rgba(249,115,22,0.20);
+  border-radius: 6px;
+  color: #fde8cc;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.unlocked-controls input[type="number"]:focus,
+.unlocked-controls select:focus {
+  border-color: rgba(249,115,22,0.50);
+}
+
+.unlocked-controls select option {
+  background: #1a0a00;
+}
+
+/* Toggle row */
+.unlocked-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.unlocked-toggle-row label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(220,165,100,0.55);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Checkbox styled toggle */
+.unlocked-toggle {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.unlocked-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.unlocked-toggle-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 99px;
+  background: rgba(249,115,22,0.12);
+  border: 1px solid rgba(249,115,22,0.25);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.unlocked-toggle input:checked + .unlocked-toggle-track {
+  background: rgba(249,115,22,0.40);
+  border-color: rgba(249,115,22,0.60);
+}
+
+.unlocked-toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(220,165,100,0.50);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.unlocked-toggle input:checked + .unlocked-toggle-track::after {
+  transform: translateX(14px);
+  background: #ff9a3c;
+}
+
+/* Divider */
+.unlocked-divider {
+  height: 1px;
+  background: rgba(249,115,22,0.10);
+  margin: 2px 0;
+}
+
+/* Start button */
+#startUnlocked {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Key hints */
+.unlocked-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.key-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  color: rgba(220,165,100,0.55);
+  background: rgba(249,115,22,0.05);
+  border: 1px solid rgba(249,115,22,0.15);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+
+.key-badge kbd {
+  background: rgba(249,115,22,0.15);
+  border: 1px solid rgba(249,115,22,0.25);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: #ff9a3c;
+}
+
+/* Info bar */
+#unlockedInfo {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(220,165,100,0.60);
+  letter-spacing: 0.08em;
+  min-height: 16px;
+  text-align: center;
+}
+
+/* Penalty flash animation */
+@keyframes penaltyShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px) rotate(-1deg); }
+  40% { transform: translateX(5px) rotate(1deg); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}

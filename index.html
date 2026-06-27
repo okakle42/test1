@@ -1,0 +1,2082 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Minijuegos · Entrenador de Bots</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/unlocked.css?v=1">
+  <link rel="stylesheet" href="css/termita.css?v=3">
+  <link rel="stylesheet" href="css/simon.css?v=3">
+  <link rel="stylesheet" href="css/arrow.css?v=3">
+  <link rel="stylesheet" href="css/letters.css?v=3">
+  <link rel="stylesheet" href="css/hacking.css?v=3">
+  <link rel="stylesheet" href="css/holematch.css?v=3">
+  <link rel="stylesheet" href="css/colorcount.css?v=3">
+  <link rel="stylesheet" href="css/pairs.css?v=3">
+  <link rel="stylesheet" href="css/typix.css?v=3">
+  <link rel="stylesheet" href="css/Skillcheck.css">
+  <link rel="stylesheet" href="css/maze.css">
+  <link rel="stylesheet" href="css/keyspam.css">
+  <link rel="stylesheet" href="css/sequence.css">
+  <link rel="stylesheet" href="css/rhythmclick.css">
+  <link rel="stylesheet" href="css/progresstiming.css">
+</head>
+<body>
+
+  <!-- ── Decorative background layers ── -->
+   
+   <div id="cursorGlow"></div>
+  <div id="cursorRing"></div>
+  <div id="globalLight"></div>
+   <div id="particles"></div>
+   <div id="ambientFog">
+    <div class="fog fog1"></div>
+    <div class="fog fog2"></div>
+    <div class="fog fog3"></div>
+</div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="diagonal-grid" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="beams" aria-hidden="true">
+    <div class="beam beam-1"></div>
+    <div class="beam beam-2"></div>
+    <div class="beam beam-3"></div>
+  </div>
+
+  <!-- ── Header ── -->
+  <header id="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="header-logo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span class="logo-dot"></span>
+        </div>
+        <div class="header-titles">
+          <div class="header-name">
+            <span class="header-sys">SYS://</span>
+            <h1 class="glitch-text" data-text="MINIJUEGOS">MINIJUEGOS</h1>
+            <span class="header-credit">made by empalsa &middot; <a class="header-credit-link" href="https://pixabay.com/users/moodmode-33139623/" target="_blank" rel="noopener">music by moodmode</a></span>
+          </div>
+          <div class="header-sub">
+            <span class="status-dot"></span>
+            TRAINING_INTERFACE v2.4 &middot; 0x<span id="hexTick">0000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="header-status">
+          <span class="status-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ff9a3c" stroke-width="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            ONLINE
+          </span>
+          <span class="status-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            SECURE
+          </span>
+          <span class="status-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span id="modsCountHeader">10</span> MODS
+          </span>
+        </div>
+        <div class="theme-wrapper">
+          <select id="themeSelect" class="theme-select">
+            <option value="dark" selected>Oscuro</option>
+            <option value="light">Claro</option>
+            <option value="orange">Naranja</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main ── -->
+  <main id="app">
+
+    <!-- Home: lobby grid -->
+    <section id="home" class="view">
+      <div class="lobby-inner">
+
+        <!-- Ambient glow -->
+        <div class="lobby-ambient" aria-hidden="true"></div>
+
+        <div class="lobby-heading">
+          <div>
+            <div class="lobby-label">
+              <span class="lobby-label-bar"></span>
+              CAMPO DE ENTRENAMIENTO
+            </div>
+            <h2 class="lobby-title">Selecciona un módulo</h2>
+            <p class="lobby-sub">Cada módulo entrena un vector cognitivo distinto. Elige un objetivo y ejecuta el protocolo.</p>
+            <div class="lobby-pills">
+              <span class="lobby-pill lobby-pill--active">
+                <span class="lobby-pill-dot"></span><span id="modsCountPill">10</span> MÓDULOS ACTIVOS
+              </span>
+              <span class="lobby-pill">⚡ SESIÓN EN CURSO</span>
+              <span class="lobby-pill">🎯 DIFICULTAD ADAPTATIVA</span>
+            </div>
+          </div>
+          <div class="lobby-stats">
+            <div>TOTAL_MODS: <span id="modsCountStats" style="color:#ff9a3c">10</span></div>
+            <div>STATUS: <span style="color:#ff9a3c">ACCESIBLE</span></div>
+            <div>SESIÓN: <span style="color:#f97316">ACTIVA</span></div>
+          </div>
+        </div>
+
+        <div class="lobby-filter-bar" id="filterBar" role="toolbar" aria-label="Filtrar por categoría">
+          <button class="filter-btn filter-btn--active" data-filter="TODOS">TODOS</button>
+        </div>
+
+        <div class="game-grid" id="gameList">
+
+          <button class="game-card" data-game="termita" data-tags="MEMORIA" style="--accent:#f97316">
+            <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">01</span>
+              <span class="card-icon-lg">🐜</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">MEMORIA</span>
+              </div>
+              <h3 class="card-name">Termita</h3>
+              <p class="card-desc">Memoriza la cuadrícula iluminada. Señala las celdas correctas antes de que el sistema las borre.</p>
+              <span class="card-record-badge" data-record="termita" hidden></span>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="2" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="simon" data-tags="SECUENCIA" style="--accent:#818cf8">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">02</span>
+              <span class="card-icon-lg">🧠</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">SECUENCIA</span>
+              </div>
+              <h3 class="card-name">Simon Dice</h3>
+              <p class="card-desc">Repite secuencias de colores en orden exacto. Cada ronda añade un paso más al patrón.</p>
+              <span class="card-record-badge" data-record="simon" hidden></span>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="3" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="arrow" data-tags="REFLEJOS" style="--accent:#ff9a3c">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">03</span>
+              <span class="card-icon-lg">⬆️</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">REFLEJOS</span>
+              </div>
+              <h3 class="card-name">Desafío Flechas</h3>
+              <p class="card-desc">Presiona la tecla de flecha correcta antes de que caduque la señal. Velocidad máxima requerida.</p>
+              <span class="card-record-badge" data-record="arrow" hidden></span>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="2" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="soup" data-tags="CIFRADO" style="--accent:#f43f5e">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">04</span>
+              <span class="card-icon-lg">💀</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">CIFRADO</span>
+              </div>
+              <h3 class="card-name">Hacking Device</h3>
+              <p class="card-desc">Descifra el código de acceso e infiltra el sistema antes de que el firewall te detecte.</p>
+              <span class="card-record-badge" data-record="soup" hidden></span>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="5" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="letters" data-tags="TIPEO" style="--accent:#a78bfa">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+             <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">05</span>
+              <span class="card-icon-lg">⌨️</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">TIPEO</span>
+              </div>
+              <h3 class="card-name">Caída de letras</h3>
+              <p class="card-desc">Escribe las letras que caen en tiempo real. Si llegan al suelo, el sistema falla.</p>
+              <span class="card-record-badge" data-record="letters" hidden></span>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="3" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="holematch" data-tags="PERCEPCIÓN" style="--accent:#facc15">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+             <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">06</span>
+              <span class="card-icon-lg">🔷</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">PERCEPCIÓN</span>
+              </div>
+              <h3 class="card-name">Hole Match</h3>
+              <p class="card-desc">Empareja la forma con el hueco correcto al instante. El margen de error es cero.</p>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="2" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="colorcount" data-tags="ANÁLISIS" style="--accent:#fb923c">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">07</span>
+              <span class="card-icon-lg">🎯</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">ANÁLISIS</span>
+              </div>
+              <h3 class="card-name">Color Count</h3>
+              <p class="card-desc">Cuenta los puntos del color indicado más rápido que el sistema. Precisión sobre velocidad.</p>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="4" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="pairs" data-tags="MEMORIA" style="--accent:#a78bfa">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">08</span>
+              <span class="card-icon-lg">🃏</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">MEMORIA</span>
+              </div>
+              <h3 class="card-name">Pairs</h3>
+              <p class="card-desc">Voltea cartas para encontrar los pares de íconos. Memoriza posiciones y completa el tablero antes de que expire el tiempo.</p>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="2" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="typix" data-tags="PALABRAS" style="--accent:#ff9a3c">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+             <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">09</span>
+              <span class="card-icon-lg">🔎</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">PALABRAS</span>
+              </div>
+              <h3 class="card-name">Typix</h3>
+              <p class="card-desc">Adivina la palabra oculta antes de agotar los intentos. Cada letra revelará pistas sobre su posición correcta.</p>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="3" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+          <button class="game-card" data-game="unlocked" data-tags="ROTACIÓN" style="--accent:#34d399">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">10</span>
+              <span class="card-icon-lg">🔓</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">ROTACIÓN</span>
+              </div>
+              <h3 class="card-name">Unlocked</h3>
+              <p class="card-desc">Gira los anillos concéntricos para alinear cada punto de color con su línea objetivo. Usa A/D para rotar.</p>
+              <span class="card-record-badge" data-record="unlocked" hidden></span>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="3" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+
+
+          <button class="game-card" data-game="skillchecks" data-tags="ROTACIÓN" style="--accent:#facc15">
+                        <div class="card-border"></div>
+            <div class="card-shine"></div>
+            <div class="card-glare"></div>
+            <div class="card-3d">
+            <div class="card-accent-strip"></div>
+            <div class="card-hero">
+              <div class="card-hero-bg"></div>
+              <span class="card-num">11</span>
+              <span class="card-icon-lg">⚡</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag">ROTACIÓN</span>
+              </div>
+              <h3 class="card-name">Skill Checks</h3>
+              <p class="card-desc">Afila tus sentidos de bot.</p>
+              <span class="card-record-badge" data-record="skillchecks" hidden></span>
+              <div class="card-bottom">
+                <div class="diff-dots" data-level="5" data-max="5"></div>
+                <span class="card-cta">EJECUTAR <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+            </div>
+            <div class="card-bottom-glow"></div>
+          </button>
+                    <div class="game-card game-card--locked">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.25;margin-bottom:10px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <p class="locked-label">MÓDULO BLOQUEADO</p>
+            <p class="locked-sub">Próximamente</p>
+          </div>
+
+
+        </div>
+
+        <div class="lobby-footer">
+          <span>© MINIJUEGOS · ENTRENADOR DE BOTS</span>
+          <div class="lobby-footer-stats">
+            <span>CPU: <span style="color:#ff9a3c">12%</span></span>
+            <span>MEM: <span style="color:#f97316">340MB</span></span>
+            <span class="footer-nominal">
+              <span class="status-dot status-dot--sm"></span>
+              SISTEMA NOMINAL
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Game sections (keep all existing content, add back nav) ── -->
+
+    
+    <section id="termita" class="view hidden">
+      <div class="game-view-inner">
+       <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="card">
+          <h2>Termita</h2>
+          <p>Se mostrará una rejilla de cubos; algunos se iluminan y desaparecen. Señala los cubos que viste iluminados.</p>
+          <div class="controls">
+            <label>Rejilla:
+              <select id="gridSize">
+                <option value="4">4x4</option>
+                <option value="5">5x5</option>
+                <option value="6">6x6</option>
+                <option value="8">8x8</option>
+                <option value="10">10x10</option>
+              </select>
+            </label>
+            <label>Objetivos: <input id="targets" type="number" min="1" value="4" style="width:64px"></label>
+            <label>Tiempo visible (ms): <input id="showTime" type="number" min="100" value="800" style="width:80px"></label>
+            <label>Rondas: <input id="rounds" type="number" min="1" value="5" style="width:64px"></label>
+          </div>
+          <button id="startTermita">Empezar</button>
+          <div id="grid" class="grid hidden" aria-hidden="true"></div>
+          <div id="termitaInfo" class="result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="simon" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="card">
+          <h2>Simon Dice</h2>
+          <p>Repite la secuencia de colores que aparece. Ajusta la dificultad con el número de colores, la longitud inicial, la velocidad de reproducción y las rondas.</p>
+          <div class="controls">
+            <label>Colores:
+              <select id="colorCount">
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </label>
+            <label>Longitud inicial: <input id="baseLength" type="number" min="1" value="3" style="width:64px"></label>
+            <label>Velocidad (ms): <input id="simonSpeed" type="number" min="200" value="700" style="width:80px"></label>
+            <label>Rondas: <input id="simonRounds" type="number" min="1" value="5" style="width:64px"></label>
+          </div>
+          <button id="startSimon">Empezar</button>
+          <div id="simonBoard" class="simon-board hidden"></div>
+          <div id="simonInfo" class="result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="arrow" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="arrow-game-container">
+          <div class="arrow-card">
+            <div class="arrow-header">
+              <div>
+                <h2>Desafío de Flechas</h2>
+                <p>Completa la secuencia antes de que se acabe el tiempo. Usa el teclado o toca las flechas.</p>
+              </div>
+              <div class="arrow-status">
+                <span id="arrowPercent">0%</span>
+                <span id="arrowTime">15.0s</span>
+              </div>
+            </div>
+            <div class="arrow-controls">
+              <label>Dificultad:
+                <select id="arrowLevel">
+                  <option value="easy">Fácil</option>
+                  <option value="normal" selected>Normal</option>
+                  <option value="hard">Difícil</option>
+                </select>
+              </label>
+              <label>Pasos: <input id="arrowLength" type="number" min="10" max="30" value="20" style="width:72px"></label>
+              <label>Tiempo (s): <input id="arrowTimeInput" type="number" min="5" max="30" value="15" style="width:72px"></label>
+            </div>
+            <div class="arrow-progress-wrapper">
+              <div id="arrowProgress" class="arrow-progress"></div>
+            </div>
+            <div class="arrow-display-wrapper">
+              <div id="arrowDisplay" class="arrow-display">↑</div>
+              <div class="arrow-display-info">
+                <span id="arrowStep">0 / 20</span>
+                <span id="arrowCombo">Combo: 0</span>
+              </div>
+              <div id="arrowSequence" class="arrow-sequence" aria-live="polite"></div>
+            </div>
+            <div class="arrow-footer">
+              <span id="arrowRecord">Récord: 0%</span>
+              <span id="arrowResult"></span>
+            </div>
+            <button id="startArrow" class="arrow-start-btn">Iniciar</button>
+            <div id="arrowMessage" class="arrow-message hidden"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section id="soup" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Volver al lobby
+        </button>
+        <div class="card">
+          <h2>Hacking Device</h2>
+          <p>
+            Encuentra la secuencia objetivo dentro de la cuadrícula antes de que termine el tiempo.
+          </p>
+          <!-- CONFIGURACIÓN -->
+          <div class="hacking-settings">
+            <!-- DIFICULTAD -->
+            <div class="settings-box difficulty">
+              <h3>Dificultad</h3>
+              <label>
+                Conjunto de símbolos
+            <div class="symbol-selector">
+              <button class="symbol-chip active" data-value="letters">Letras</button>
+              <button class="symbol-chip active" data-value="numbers">Números</button>
+              <button class="symbol-chip active" data-value="symbols">Símbolos</button>
+
+              <button class="symbol-chip" data-value="greek">Griegos</button>
+              <button class="symbol-chip" data-value="runes">Runas</button>
+              <button class="symbol-chip" data-value="braille">Braille</button>
+
+              <button class="symbol-chip" data-value="cyrillic">Ruso</button>
+              <button class="symbol-chip" data-value="arabic">Árabe</button>
+              <button class="symbol-chip" data-value="chinese">Chino</button>
+            </div>
+              </label>
+              <label>
+                Tamaño de la cuadrícula
+                <input
+                  id="hackingSize"
+                  type="number"
+                  min="5"
+                  max="20"
+                  value="10">
+              </label>
+              <label>
+                Longitud objetivo
+                <input
+                  id="hackingLength"
+                  type="number"
+                  min="1"
+                  max="4"
+                  value="2">
+              </label>
+            </div>
+            <!-- PARTIDA -->
+            <div class="settings-box match">
+              <h3>Partida</h3>
+              <label>
+                Tiempo límite (segundos)
+                <input
+                  id="hackingTime"
+                  type="number"
+                  min="3"
+                  value="15">
+              </label>
+              <label>
+                Número de rondas
+                <input
+                  id="hackingRounds"
+                  type="number"
+                  min="1"
+                  value="5">
+              </label>
+            </div>
+            <!-- OPCIONES -->
+            <div class="settings-box options">
+              <h3>Opciones</h3>
+              <label class="checkbox-row">
+                <input
+                  id="hackingMoveAll"
+                  type="checkbox"
+                  checked>
+                <span>Mover todas las celdas</span>
+              </label>
+              <label class="checkbox-row">
+                <input
+                  id="hackingHighlightTarget"
+                  type="checkbox">
+                <span>Iluminar objetivo</span>
+              </label>
+            </div>
+
+          </div>
+
+          <!-- HUD -->
+          <div class="hacking-top">
+            <div class="stats">
+              <span id="hackingStreak">STREAK: 0</span>
+              <span id="hackingMax">MAX STREAK: 0</span>
+              <span id="hackingTimer">TIEMPO: 0.0s</span>
+            </div>
+            <div id="hackingTarget" class="hacking-target">
+              OBJETIVO:
+              <strong></strong>
+            </div>
+          </div>
+          <button id="startHacking">
+            Iniciar Hacking
+          </button>
+          <div
+            id="hackingBoard"
+            class="hacking-board hidden"
+            aria-hidden="true">
+          </div>
+          <div id="hackingInfo" class="result"></div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section id="letters" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="letters-card">
+          <div class="letters-header">
+            <div>
+              <h2>Letters Fall</h2>
+              <p>Escribe las palabras antes de que lleguen a la zona roja. Cada nivel aumenta la dificultad.</p>
+            </div>
+            <div class="letters-stats">
+              <span id="lettersLevel">Nivel: 1</span>
+              <span id="lettersDifficulty">Dificultad: Normal</span>
+              <span id="lettersScore">Puntuación: 0</span>
+              <span id="lettersBest">Mejor: 0</span>
+            </div>
+          </div>
+          <div id="lettersArea" class="letters-area">
+            <div class="letters-lives" id="lettersLives"></div>
+            <div id="lettersDanger" class="letters-danger"></div>
+          </div>
+          <div class="letters-controls">
+            <label>Dificultad:
+              <select id="lettersDifficultySelect">
+                <option value="easy">Easy</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Hard</option>
+              </select>
+            </label>
+            <button id="startLetters" class="letters-start-btn">Iniciar</button>
+          </div>
+          <div class="letters-input-row">
+            <input id="lettersInput" type="text" autocomplete="off" placeholder="Escribe aquí..." />
+            <div id="lettersMessage" class="letters-message"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="holematch" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="holematch-card">
+          <div class="holematch-header">
+            <div>
+              <h2>Hole Match</h2>
+              <p>Presiona ESPACIO cuando el círculo pase sobre las casillas objetivo del recorrido.</p>
+            </div>
+            <div class="holematch-status">
+              <span id="holematchProgress">Progreso: 0 / 4</span>
+              <span id="holematchMistakes">Errores: 0</span>
+              <span id="holematchTimer">Tiempo: 20.0s</span>
+            </div>
+          </div>
+          <div id="holematchBoard" class="holematch-board"></div>
+          <div class="holematch-message" id="holematchMessage">Presiona iniciar para comenzar.</div>
+          <div class="holematch-controls">
+            <label>Dificultad:
+              <select id="holematchDifficulty">
+                <option value="easy">Fácil</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Difícil</option>
+              </select>
+            </label>
+            <label>Casillas:
+              <input id="holematchTargetCount" type="number" min="4" max="16" value="8" />
+            </label>
+            <button id="startHoleMatch">Iniciar</button>
+          </div>
+          <div class="holematch-guide">Usa ESPACIO para acertar las casillas objetivo en el momento justo.</div>
+          <div class="holematch-progress-bar">
+            <div class="holematch-progress-fill" id="holematchProgressBar"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="colorcount" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="colorcount-card">
+          <div class="colorcount-header">
+            <div>
+              <h2>Color Count</h2>
+              <p>Cuenta cuántos cuadrados del color objetivo aparecen y selecciona la respuesta correcta.</p>
+            </div>
+            <div class="colorcount-status">
+              <span id="colorcountTimer">Tiempo: 0.0s</span>
+              <span id="colorcountLevel">Nivel: 0 / 5</span>
+              <span id="colorcountScore">Puntos: 0</span>
+            </div>
+          </div>
+          <div class="colorcount-board">
+            <div id="colorcountQuestion" class="colorcount-question">COUNT THE RED SQUARES</div>
+            <div id="colorcountGrid" class="colorcount-grid"></div>
+          </div>
+          <div class="colorcount-controls">
+            <label>Dificultad:
+              <select id="colorcountDifficulty">
+                <option value="easy">Fácil</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Difícil</option>
+                <option value="extreme">Extremo</option>
+              </select>
+            </label>
+            <label>Tu respuesta:
+              <input id="colorcountAnswer" type="number" min="0" placeholder="0" disabled style="width:80px">
+            </label>
+            <button id="colorcountSubmit" disabled>Enviar</button>
+            <button id="startColorCount">Iniciar</button>
+          </div>
+          <div id="colorcountAnswers" class="colorcount-answer-list"></div>
+          <div id="colorcountMessage" class="colorcount-message">Pulsa iniciar para comenzar.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pairs" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="card">
+          <h2>Pairs</h2>
+          <p>Voltea dos cartas por turno. Si los íconos coinciden, el par queda descubierto. Encuentra todos los pares antes de que se acabe el tiempo.</p>
+
+          <div class="pairs-diff-row">
+            <button class="pairs-diff-btn pairs-diff--active" data-pairs="12" data-time="90">FÁCIL · 12 pares · 90s</button>
+            <button class="pairs-diff-btn" data-pairs="16" data-time="120">MEDIO · 16 pares · 120s</button>
+            <button class="pairs-diff-btn" data-pairs="20" data-time="150">DIFÍCIL · 20 pares · 150s</button>
+          </div>
+
+          <div class="pairs-timerbar-wrap">
+            <div id="pairsTimerBar" class="pairs-timerbar"></div>
+          </div>
+
+          <div class="pairs-stats">
+            <div class="pairs-stat">
+              <span class="pairs-stat-label">Intentos</span>
+              <span class="pairs-stat-val" id="pairsMoves">0</span>
+            </div>
+            <div class="pairs-stat">
+              <span class="pairs-stat-label">Pares</span>
+              <span class="pairs-stat-val" id="pairsPairs">0</span>
+            </div>
+            <div class="pairs-stat">
+              <span class="pairs-stat-label">Tiempo</span>
+              <span class="pairs-stat-val" id="pairsTime">90</span>
+            </div>
+          </div>
+
+          <div id="pairsBoard" class="pairs-board"></div>
+
+          <div id="pairsMessage" class="pairs-message"></div>
+
+          <button id="startPairs" class="pairs-restart-btn">↺ Reiniciar</button>
+        </div>
+      </div>
+    </section>
+
+   <section id="typix" class="view hidden">
+  <div class="game-view-inner">
+    <button class="back-btn" onclick="window.backToMenu('home')">
+      Volver al lobby
+    </button>
+
+    <div class="card">
+      <h2>Typix</h2>
+      <p>Adivina la palabra de 5 letras en un máximo de 6 intentos.</p>
+
+      <div class="typix-header">
+        <div id="typixTimer">60</div>
+      </div>
+
+      <div id="typixBoard" class="typix-board"></div>
+
+
+
+
+      <label class="typix-option">
+      <input type="checkbox" id="typixUniqueDigits">
+       Modo difícil (sin dígitos repetidos)
+      </label>
+
+      <input
+       id="typixInput"
+       maxlength="5"
+       inputmode="numeric"
+        pattern="[0-9]*"
+      >
+      <button id="typixGuessBtn">
+        Intentar
+      </button>
+      <div id="typixMessage" class="typix-message"></div>
+    </div>
+  </div>
+</section>
+
+
+
+
+    <!-- ── Unlocked ── -->
+    <section id="unlocked" class="view hidden">
+      <div class="game-view-inner">
+        <button class="back-btn" onclick="window.backToMenu('home')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al lobby
+        </button>
+        <div class="card">
+          <h2>Unlocked</h2>
+          <p>Gira los anillos para alinear cada punto de color con la línea objetivo de su color. Todos los anillos deben resolverse para ganar la ronda.</p>
+
+          <div class="unlocked-layout">
+            <!-- Canvas + HUD -->
+            <div class="unlocked-canvas-wrap">
+              <div class="unlocked-ring-selector">
+                <button class="unlocked-ring-btn" id="unlockedPrevRing">‹</button>
+                <span id="unlockedRingIndicator">ANILLO 1 / 3</span>
+                <button class="unlocked-ring-btn" id="unlockedNextRing">›</button>
+              </div>
+
+              <canvas id="unlockedCanvas" width="480" height="480" tabindex="0"></canvas>
+
+              <div class="unlocked-hud">
+                <div class="unlocked-hud-item">
+                  RONDA <span class="unlocked-hud-val" id="unlockedRound">0/0</span>
+                </div>
+                <div class="unlocked-hud-item">
+                  PUNTOS <span class="unlocked-hud-val" id="unlockedScore">0</span>
+                </div>
+                <div class="unlocked-hud-item">
+                  TIEMPO <span class="unlocked-hud-val" id="unlockedTimer">∞</span>
+                </div>
+              </div>
+
+              <div id="unlockedInfo"></div>
+
+              <div class="unlocked-keys">
+                <span class="key-badge"><kbd>A</kbd> Girar ←</span>
+                <span class="key-badge"><kbd>D</kbd> Girar →</span>
+                <span class="key-badge"><kbd>Q</kbd>/<kbd>E</kbd> Cambiar anillo</span>
+                <span class="key-badge"><kbd>Tab</kbd> Siguiente</span>
+                <span class="key-badge">Clic en anillo: seleccionar</span>
+              </div>
+            </div>
+
+            <!-- Settings panel -->
+            <div class="unlocked-controls">
+
+              <div class="ctrl-group">
+                <label for="unlockedRingCount">Número de anillos</label>
+                <select id="unlockedRingCount">
+                  <option value="1">1 — Fácil</option>
+                  <option value="2">2 — Sencillo</option>
+                  <option value="3" selected>3 — Normal</option>
+                  <option value="4">4 — Difícil</option>
+                  <option value="5">5 — Extremo</option>
+                </select>
+              </div>
+
+              <div class="ctrl-group">
+                <label for="unlockedColors">Colores por anillo</label>
+                <select id="unlockedColors">
+                  <option value="2">2 — Mínimo</option>
+                  <option value="3" selected>3 — Normal</option>
+                  <option value="4">4 — Avanzado</option>
+                  <option value="5">5 — Experto</option>
+                  <option value="6">6 — Maestro</option>
+                  <option value="8">8 — Máximo</option>
+                </select>
+              </div>
+
+              <div class="ctrl-group">
+                <label for="unlockedGranularity">Pasos por intervalo</label>
+                <select id="unlockedGranularity">
+                  <option value="1">1 paso — Muy fácil</option>
+                  <option value="2">2 pasos — Fácil</option>
+                  <option value="4" selected>4 pasos — Normal</option>
+                  <option value="6">6 pasos — Difícil</option>
+                  <option value="8">8 pasos — Experto</option>
+                  <option value="12">12 pasos — Extremo</option>
+                </select>
+              </div>
+
+              <div class="ctrl-group">
+                <label for="unlockedTime">Tiempo límite</label>
+                <select id="unlockedTime">
+                  <option value="0" selected>Sin límite</option>
+                  <option value="120">120 s</option>
+                  <option value="90">90 s</option>
+                  <option value="60">60 s</option>
+                  <option value="45">45 s</option>
+                  <option value="30">30 s</option>
+                  <option value="20">20 s</option>
+                </select>
+              </div>
+
+              <div class="ctrl-group">
+                <label for="unlockedRounds">Rondas</label>
+                <input type="number" id="unlockedRounds" min="1" max="15" value="3">
+              </div>
+
+              <div class="unlocked-divider"></div>
+
+              <div class="unlocked-toggle-row">
+                <label for="unlockedShowTargets">Mostrar pistas</label>
+                <label class="unlocked-toggle">
+                  <input type="checkbox" id="unlockedShowTargets" checked>
+                  <span class="unlocked-toggle-track"></span>
+                </label>
+              </div>
+
+              <div class="unlocked-toggle-row">
+                <label for="unlockedShowLabels">Etiquetas de color</label>
+                <label class="unlocked-toggle">
+                  <input type="checkbox" id="unlockedShowLabels">
+                  <span class="unlocked-toggle-track"></span>
+                </label>
+              </div>
+
+              <div class="unlocked-divider"></div>
+
+              <!-- Penalty system -->
+              <div class="ctrl-group">
+                <label for="unlockedPenaltyValue">Penalización por error</label>
+                <select id="unlockedPenaltyValue">
+                  <option value="0">Sin penalización</option>
+                  <option value="3">−3 s (requiere tiempo)</option>
+                  <option value="5" selected>−5 s (requiere tiempo)</option>
+                  <option value="10">−10 s (requiere tiempo)</option>
+                  <option value="15">−15 s (requiere tiempo)</option>
+                </select>
+              </div>
+
+              <div class="unlocked-divider"></div>
+
+              <button class="btn-primary" id="startUnlocked">INICIAR</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section id="skillchecks" class="view hidden">
+<div class="skillcheck-selector">
+    <button class="back-btn" onclick="window.backToMenu('home')">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <polyline points="15 18 9 12 15 6"/>
+  </svg>
+  Volver al lobby
+ </button>
+
+<div class="skill-cube" data-game="rapidlines">
+        <img
+        class="cube-icon"
+        src="assets/icons/rapid-lines.svg"
+        alt="Rapid Lines">
+    <span class="cube-title">Rapid Lines</span>
+    <div class="bottom-glow"></div>
+
+  </div>
+  <div class="skill-cube" data-game="circle">
+        <img
+        class="cube-icon"
+        src="assets/icons/circle.svg"
+        alt="circle">
+    <span class="cube-title">Circle</span>
+    <div class="bottom-glow"></div>
+  </div>
+
+<div class="skill-cube" data-game="maze">
+    <img
+        class="cube-icon"
+        src="assets/icons/maze.svg"
+        alt="Maze">
+    <span class="cube-title">Maze</span>
+    <div class="bottom-glow"></div>
+</div>
+
+  <div class="skill-cube" data-game="keyspam">
+        <img
+        class="cube-icon"
+        src="assets/icons/key-spam.svg"
+        alt="keys pam">
+    <span class="cube-title">Key Spam</span>
+    <div class="bottom-glow"></div>
+  </div>
+
+  <div class="skill-cube" data-game="sequence">
+        <img
+        class="cube-icon"
+        src="assets/icons/sequence.svg"
+        alt="sequence">
+    <span class="cube-title">Sequence</span>
+    <div class="bottom-glow"></div>
+  </div>
+
+  <div class="skill-cube" data-game="rhythmclick">
+        <img
+        class="cube-icon"
+        src="assets/icons/rhythm-click.svg"
+        alt="Rhythm Click">
+    <span class="cube-title">Rhythm Click</span>
+    <div class="bottom-glow"></div>
+    </div>
+
+    <div class="skill-cube" data-game="progresstiming">
+        <img
+        class="cube-icon"
+        src="assets/icons/progress-timing.svg"
+        alt="Progress timing">
+    <span class="cube-title">Progress timing</span>
+    <div class="bottom-glow"></div>
+  </div>
+
+    <div class="skill-cube" data-game="Skillbar">
+        <img
+        class="cube-icon"
+        src="assets/icons/skill-bar.svg"
+        alt="Skill bar">
+    <span class="cube-title">Skill bar</span>
+    <div class="bottom-glow"></div>
+  </div>
+
+  </div>
+</div>
+
+</section>
+<section id="circle-game" class="view hidden">
+  <div class="game-view-inner">
+    <button class="back-btn" onclick="window.backToMenu('skillchecks')">
+      ← Volver
+    </button>
+    <div class="circle-card">
+      <h2>Circle Skill Check</h2>
+      <div class="circle-wrapper">
+      <div class="circle-ring">
+          <div id="circleTarget"></div>
+          <div id="circleNeedle"></div>
+      </div>
+      </div>
+      <button id="startCircle">Empezar</button>
+                      <div class="circle-stats">
+                    <div>
+                        Score
+                        <span id="circleScore">0</span>
+                    </div>
+                    <div>
+                        Combo
+                        <span id="circleCombo">0</span>
+                    </div>
+                    <div>
+                        Best
+                        <span id="circleBest">0</span>
+                    </div>
+                </div>
+      <div id="circleResult"></div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section id="rapidlines-game" class="view hidden">
+    <div class="rapid-card">
+        <button class="back-btn"
+                onclick="window.backToMenu('skillchecks')">
+            ← Volver
+        </button>
+        <h2>Rapid Lines</h2>
+        <div class="rapid-hud">
+            <div class="hud-box">
+                <span>Score</span>
+                <strong id="rapidScore">0</strong>
+            </div>
+            <div class="hud-box">
+                <span>Combo</span>
+                <strong id="rapidCombo">0</strong>
+            </div>
+            <div class="hud-box">
+                <span>Best</span>
+                <strong id="rapidBest">0</strong>
+              </div>
+                    <div class="hud-box">
+                  <span>Tiempo</span>
+                  <strong id="rapidTime">60</strong>
+                  </div>
+                  <div class="hud-box">
+                  <span>Precisión</span>
+                  <strong id="rapidAccuracy">100%</strong>
+              </div>
+        </div>
+        <div id="rapidArena">
+          <div id="rapidOverlay"></div>
+            <div id="rapidCenter"></div>
+            <div id="rapidEffects"></div>
+            <div id="rapidGameOver" class="hidden">
+              <h2>GAME OVER</h2>
+               <p id="rapidGameOverText"></p>
+                <button id="rapidRestart">
+                   Reintentar
+              </button>
+               <button id="rapidBack">
+              Volver
+              </button>
+         </div>
+        </div>
+
+      <div class="rapid-config">
+
+    <div class="config-item">
+        <label>Velocidad inicial</label>
+        <input id="cfgStartSpeed" type="number" step="0.1" value="6">
+    </div>
+
+    <div class="config-item">
+        <label>Aceleración</label>
+        <input id="cfgSpeedIncrease" type="number" step="0.05" value="0.15">
+    </div>
+
+    <div class="config-item">
+        <label>Velocidad máxima</label>
+        <input id="cfgMaxSpeed" type="number" step="0.5" value="14">
+    </div>
+
+    <div class="config-item">
+        <label>Flechas</label>
+        <input id="cfgMaxArrows" type="number" min="1" value="1">
+    </div>
+
+    <div class="config-item">
+        <label>Tiempo</label>
+        <input id="cfgTime" type="number" min="5" value="60">
+    </div>
+
+    <div class="config-buttons">
+      
+            <button id="saveRapidConfig">
+            Guardar
+        </button>
+
+        <button id="resetRapidConfig">
+            Restablecer
+        </button>
+    </div>
+</div>
+        <button id="startRapid">
+            Empezar
+        </button>
+        <div id="rapidResult"></div>
+    </div>
+</section>
+ 
+
+
+<section id="maze-game" class="view hidden">
+    <div class="maze-card">
+        <button class="back-btn"
+                onclick="window.backToMenu('skillchecks')">
+            ← Volver
+        </button>
+        <h2>Maze</h2>
+        <div class="maze-hud">
+            <div class="hud-box">
+                <span>Nivel</span>
+                <strong id="mazeLevel">1</strong>
+            </div>
+            <div class="hud-box">
+                <span>Tiempo</span>
+                <strong id="mazeTime">60</strong>
+            </div>
+            <div class="hud-box">
+                <span>Movimientos</span>
+                <strong id="mazeMoves">0</strong>
+            </div>
+        </div>
+<div id="mazeBoard">
+
+    <div id="mazeContainer">
+
+        <div id="mazeGrid"></div>
+        <div id="mazeFog"></div>
+        <div id="mazeEffects"></div>
+        <div id="mazePlayer"></div>
+
+    </div>
+
+</div>
+        <button id="startMaze">
+            Empezar
+        </button>
+        <div id="mazeResult"></div>
+    </div>
+</section>
+
+
+<section id="keyspam-game" class="view hidden">
+    <div class="keyspam-card">
+        <button
+            class="back-btn"
+            onclick="window.backToMenu('skillchecks')">
+            ← Volver
+        </button>
+        <h2>Key Spam</h2>
+        <div class="keyspam-hud">
+            <div class="hud-box">
+                <span>Nivel</span>
+                <strong id="keyspamLevel">1</strong>
+            </div>
+            <div class="hud-box">
+                <span>Tiempo</span>
+                <strong id="keyspamTime">8</strong>
+            </div>
+            <div class="hud-box">
+                <span>Pulsaciones</span>
+                <strong id="keyspamHits">0 / 20</strong>
+            </div>
+        </div>
+        <div id="keyspamBoard">
+            <div id="keyspamKey">
+                E
+            </div>
+            <div id="keyspamProgress">
+                <div id="keyspamProgressFill"></div>
+            </div>
+            <div id="keyspamMessage">
+                Pulsa la tecla mostrada
+            </div>
+        </div>
+        <button id="startKeySpam">
+            Empezar
+        </button>
+        <div id="keyspamResult"></div>
+    </div>
+</section>
+
+
+<section id="rhythmclick" class="view hidden">
+
+    <div class="rhythm-card">
+
+        <button class="back-btn"
+                onclick="window.backToMenu('skillchecks')">
+            ← Volver
+        </button>
+
+        <h2>Rhythm Click</h2>
+
+        <div class="rhythm-hud">
+
+            <div class="hud-box">
+                <span>Nivel</span>
+                <strong id="rhythmLevel">1</strong>
+            </div>
+
+            <div class="hud-box">
+                <span>Tiempo</span>
+                <strong id="rhythmTime">30</strong>
+            </div>
+
+            <div class="hud-box">
+                <span>Puntuación</span>
+                <strong id="rhythmScore">0</strong>
+            </div>
+
+        </div>
+
+        <div id="rhythmBoard">
+
+            <div id="rhythmArena"></div>
+
+        </div>
+
+        <button id="startRhythm">
+            Empezar
+        </button>
+
+        <div id="rhythmResult"></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================================
+     PROGRESS TIMING
+========================================================== -->
+
+<div id="progresstiming"
+     class="view hidden gameContainer progressTiming">
+
+    <!-- ======================================
+         CABECERA
+    ======================================= -->
+
+    <div class="pt-header">
+
+        <button class="back-btn"
+                onclick="window.backToMenu('skillchecks')">
+            ← Volver
+        </button>
+
+        <div>
+
+            <div class="pt-title">
+                Progress Timing
+            </div>
+
+            <div class="pt-subtitle">
+                Configura la dificultad antes de comenzar
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ======================================
+         CONFIGURACIÓN
+    ======================================= -->
+
+    <div id="ptConfig" class="pt-config">
+
+        <div class="pt-body">
+
+            <!-- ==========================
+                 MODO
+            =========================== -->
+
+            <div class="pt-section">
+
+                <div class="pt-section-title">
+
+                    Modo
+
+                </div>
+
+                <div class="pt-mode">
+
+                    <button
+                        id="ptBasicMode"
+                        class="active">
+
+                        Básico
+
+                    </button>
+
+                    <button
+                        id="ptAdvancedMode">
+
+                        Avanzado
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+                 PREVISUALIZACIÓN
+            =========================== -->
+
+            <div class="pt-section">
+
+                <div class="pt-section-title">
+
+                    Vista previa
+
+                </div>
+
+                <div class="pt-card">
+
+                    <div
+                        id="ptPreview"
+                        class="pt-preview">
+
+                        <div
+                            id="ptPreviewTrack"
+                            class="pt-track">
+
+                            <div
+                                id="ptPreviewTarget"
+                                class="pt-target">
+
+                                <div
+                                    id="ptPreviewPerfect"
+                                    class="pt-perfect">
+
+                                </div>
+
+                            </div>
+
+                            <div
+                                id="ptPreviewMarker"
+                                class="pt-marker">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+                 VELOCIDAD
+            =========================== -->
+
+            <div class="pt-section">
+
+                <div class="pt-card">
+
+                    <div class="pt-label">
+
+                        <span>
+
+                            Velocidad
+
+                        </span>
+
+                        <span
+                            id="ptSpeedValue"
+                            class="pt-value">
+
+                            50%
+
+                        </span>
+
+                    </div>
+
+                    <input
+                        id="ptSpeed"
+                        class="pt-slider"
+                        type="range"
+                        min="10"
+                        max="100"
+                        value="50">
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+                 TAMAÑO
+            =========================== -->
+
+            <div class="pt-section">
+
+                <div class="pt-card">
+
+                    <div class="pt-label">
+
+                        <span>
+
+                            Tamaño de la zona
+
+                        </span>
+
+                        <span
+                            id="ptSizeValue"
+                            class="pt-value">
+
+                            20%
+
+                        </span>
+
+                    </div>
+
+                    <input
+                        id="ptZoneSize"
+                        class="pt-slider"
+                        type="range"
+                        min="5"
+                        max="35"
+                        value="20">
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+                 OPCIONES BÁSICAS
+            =========================== -->
+
+            <div class="pt-section">
+
+                <div class="pt-card">
+
+                    <div class="pt-switch">
+
+                        <span>
+
+                            Incremental
+
+                        </span>
+
+                        <label>
+
+                            <input
+                                id="ptIncremental"
+                                type="checkbox"
+                                checked>
+
+                            <span class="pt-toggle"></span>
+
+                        </label>
+
+                    </div>
+
+                    <div class="pt-switch">
+
+                        <span>
+
+                            Zona móvil
+
+                        </span>
+
+                        <label>
+
+                            <input
+                                id="ptMovingZone"
+                                type="checkbox">
+
+                            <span class="pt-toggle"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+                        <!-- ======================================
+                 PANEL AVANZADO
+            ======================================= -->
+
+            <div id="ptAdvancedPanel" class="pt-advanced">
+
+                <div class="pt-section">
+
+                    <div class="pt-section-title">
+
+                        Opciones avanzadas
+
+                    </div>
+
+                    <div class="pt-grid two">
+
+                        <div class="pt-card">
+
+                            <div class="pt-switch">
+
+                                <span>Velocidad incremental</span>
+
+                                <label>
+
+                                    <input
+                                        id="ptIncSpeed"
+                                        type="checkbox"
+                                        checked>
+
+                                    <span class="pt-toggle"></span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="pt-card">
+
+                            <div class="pt-switch">
+
+                                <span>Tamaño incremental</span>
+
+                                <label>
+
+                                    <input
+                                        id="ptIncSize"
+                                        type="checkbox"
+                                        checked>
+
+                                    <span class="pt-toggle"></span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="pt-card">
+
+                            <div class="pt-switch">
+
+                                <span>Movimiento incremental</span>
+
+                                <label>
+
+                                    <input
+                                        id="ptIncMove"
+                                        type="checkbox"
+                                        checked>
+
+                                    <span class="pt-toggle"></span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="pt-card">
+
+                            <div class="pt-switch">
+
+                                <span>Zona Perfect</span>
+
+                                <label>
+
+                                    <input
+                                        id="ptPerfectEnabled"
+                                        type="checkbox"
+                                        checked>
+
+                                    <span class="pt-toggle"></span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ======================================
+                 BOTONES
+            ======================================= -->
+
+            <div class="pt-buttons">
+
+                <button
+                    id="ptRandom"
+                    class="pt-btn pt-random">
+
+                    🎲 Aleatorio
+
+                </button>
+
+                <button
+                    id="ptStart"
+                    class="pt-btn pt-start">
+
+                    ▶ Iniciar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ======================================
+         JUEGO
+    ======================================= -->
+
+    <div id="ptGame" class="pt-game">
+
+        <div class="pt-gameInfo">
+
+            <div class="pt-infoBox">
+
+                <div class="pt-infoTitle">
+
+                    Ronda
+
+                </div>
+
+                <div
+                    id="ptRound"
+                    class="pt-infoValue">
+
+                    1
+
+                </div>
+
+            </div>
+
+            <div class="pt-infoBox">
+
+                <div class="pt-infoTitle">
+
+                    Resultado
+
+                </div>
+
+                <div
+                    id="ptState"
+                    class="pt-infoValue">
+
+                    -
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="pt-trackContainer">
+
+            <div
+                id="ptTrack"
+                class="pt-track">
+
+                <div
+                    id="ptTarget"
+                    class="pt-target">
+
+                    <div
+                        id="ptPerfect"
+                        class="pt-perfect">
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="ptMarker"
+                    class="pt-marker">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            id="ptResult"
+            class="pt-result">
+
+        </div>
+
+        <div class="pt-timer">
+
+            <div
+                id="ptTimerFill"
+                class="pt-timerFill">
+
+            </div>
+
+        </div>
+
+        <div
+            id="ptParticles"
+            class="pt-particles">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<section id="sequence-game" class="view hidden">
+    <div class="sequence-card">
+        <button
+            class="back-btn"
+            onclick="window.backToMenu('skillchecks')">
+            ← Volver
+        </button>
+        <h2>Sequence</h2>
+        <!-- HUD -->
+        <div class="sequence-hud">
+            <div class="hud-box">
+                <span>Nivel</span>
+                <strong id="sequenceLevel">1</strong>
+            </div>
+            <div class="hud-box">
+                <span>Tiempo</span>
+                <strong id="sequenceTime">8</strong>
+            </div>
+            <div class="hud-box">
+                <span>Progreso</span>
+                <strong id="sequenceProgress">0 / 3</strong>
+            </div>
+        </div>
+        <!-- Zona del juego -->
+        <div id="sequenceBoard">
+            <div id="sequenceNodes">
+                <button class="sequence-node" data-id="0"></button>
+                <button class="sequence-node" data-id="1"></button>
+                <button class="sequence-node" data-id="2"></button>
+                <button class="sequence-node" data-id="3"></button>
+                <button class="sequence-node" data-id="4"></button>
+                <button class="sequence-node" data-id="5"></button>
+            </div>
+        </div>
+        <button id="startSequence">
+            Empezar
+        </button>
+        <div id="sequenceResult"></div>
+    </div>
+</section>
+
+
+
+  </main>
+
+  <script src="js/leaderboardManager.js"></script>
+  <script src="js/audioManager.js"></script>
+  <script src="js/backgroundManager.js"></script>
+  <script src="js/games/termita.js"></script>
+  <script src="js/games/simon.js"></script>
+  <script src="js/games/arrowGame.js"></script>
+  <script src="js/games/lettersFall.js"></script>
+  <script src="js/games/hackingDevice.js"></script>
+  <script src="js/games/holematch.js"></script>
+  <script src="js/games/colorcount.js"></script>
+  <script src="js/games/pairs.js"></script>
+  <script src="js/games/typix.js"></script>
+  <script src="js/games/unlocked.js"></script>
+  <script src="js/games/Skillcheck.js"></script>
+  <script src="js/games/rapidlines.js"></script>
+  <script src="js/games/Maze/mazePlayer.js"></script>
+  <script src="js/games/Maze/mazeGenerator.js"></script>
+  <script src="js/games/Maze/mazeRenderer.js"></script>
+  <script src="js/games/Maze/maze.js"></script>
+  <script src="js/games/keyspam/keyspam-ui.js"></script>
+  <script src="js/games/keyspam/keyspam.js"></script>
+  <script src="js/games/sequence.js"></script>
+  <script src="js/games/progresstiming.js"></script>
+  <script src="js/games/rhythmclick.js"></script>
+
+  
+  <script src="js/app.js"></script>
+  <script src="js/transitions.js"></script>
+  
+
+
+<script>
+window.StatsManager={
+ get(k,d){return JSON.parse(localStorage.getItem(k)||JSON.stringify(d));},
+ set(k,v){localStorage.setItem(k,JSON.stringify(v));}
+};
+</script>
+
+
+
+  <!-- ── Music Player Widget ── -->
+  <div id="musicPlayer" class="music-player" aria-label="Reproductor de música">
+    <div class="mp-track-info">
+      <span class="mp-label">♪</span>
+      <span class="mp-track-name" id="mpTrackName">—</span>
+    </div>
+    <div class="mp-controls">
+      <button class="mp-btn" id="mpPrev" title="Anterior" aria-label="Anterior">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+      </button>
+      <button class="mp-btn mp-btn--play" id="mpPlayPause" title="Play / Pause" aria-label="Play/Pause">
+        <svg id="mpIconPlay" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="mpIconPause" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+      </button>
+      <button class="mp-btn" id="mpNext" title="Siguiente" aria-label="Siguiente">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 5.02 3.64L8 17.14V9.86zM16 6h2v12h-2z"/></svg>
+      </button>
+    </div>
+    <div class="mp-volume">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      <input type="range" id="mpVolume" class="mp-volume-slider" min="0" max="1" step="0.02" value="0.5" aria-label="Volumen">
+    </div>
+  </div>
+
+  <!-- ── Music Player Script ── -->
+  <script>
+  (function () {
+    const TRACKS = [
+      { file: "audio/bg_game-8-bit.mp3",        name: "Game 8-Bit" },
+      { file: "audio/bg_8-bit-game.mp3",         name: "8-Bit Game" },
+      { file: "audio/bg_that-game-arcade.mp3",   name: "That Game Arcade" },
+      { file: "audio/bg_retro-game-arcade.mp3",  name: "Retro Game Arcade" },
+      { file: "audio/bg_retro-game-music.mp3",   name: "Retro Game Music" },
+      { file: "audio/bg_8-bit-arcade-mode.mp3",  name: "8-Bit Arcade Mode" },
+      { file: "audio/bg_level-iii.mp3",          name: "Level III" },
+    ];
+
+    // Persistent state keys
+    const LS_VOL     = 'mgb_vol';
+    const LS_MUTED   = 'mgb_muted';
+    const LS_TRACK   = 'mgb_track';
+
+    const audio   = new Audio();
+    audio.loop    = false;
+    audio.preload = 'metadata';
+
+    let currentIdx = parseInt(localStorage.getItem(LS_TRACK) || '0', 10) % TRACKS.length;
+    let isPlaying  = false;
+    let unlocked   = false; // autoplay gate
+
+    const savedVol  = parseFloat(localStorage.getItem(LS_VOL) ?? '0.5');
+    const savedMute = localStorage.getItem(LS_MUTED) === '1';
+
+    audio.volume = savedVol;
+
+    // DOM refs
+    const player     = document.getElementById('musicPlayer');
+    const trackName  = document.getElementById('mpTrackName');
+    const btnPlay    = document.getElementById('mpPlayPause');
+    const btnPrev    = document.getElementById('mpPrev');
+    const btnNext    = document.getElementById('mpNext');
+    const volSlider  = document.getElementById('mpVolume');
+    const iconPlay   = document.getElementById('mpIconPlay');
+    const iconPause  = document.getElementById('mpIconPause');
+
+    volSlider.value = savedVol;
+
+    function loadTrack(idx, play) {
+      currentIdx = ((idx % TRACKS.length) + TRACKS.length) % TRACKS.length;
+      localStorage.setItem(LS_TRACK, currentIdx);
+      audio.src = TRACKS[currentIdx].file;
+      trackName.textContent = TRACKS[currentIdx].name;
+      if (play && unlocked) {
+        audio.play().catch(() => {});
+        setPlaying(true);
+      }
+    }
+
+    function setPlaying(state) {
+      isPlaying = state;
+      iconPlay.style.display  = state ? 'none'   : '';
+      iconPause.style.display = state ? ''       : 'none';
+      localStorage.setItem(LS_MUTED, state ? '0' : '1');
+    }
+
+    function togglePlay() {
+      if (!unlocked) return; // should not happen, but guard
+      if (isPlaying) {
+        audio.pause();
+        setPlaying(false);
+      } else {
+        audio.play().catch(() => {});
+        setPlaying(true);
+      }
+    }
+
+    // Auto-advance
+    audio.addEventListener('ended', () => loadTrack(currentIdx + 1, true));
+
+    // Controls
+    btnPlay.addEventListener('click', togglePlay);
+    btnPrev.addEventListener('click', () => { loadTrack(currentIdx - 1, isPlaying || unlocked); });
+    btnNext.addEventListener('click', () => { loadTrack(currentIdx + 1, isPlaying || unlocked); });
+
+    // Volume
+    volSlider.addEventListener('input', () => {
+      audio.volume = parseFloat(volSlider.value);
+      localStorage.setItem(LS_VOL, volSlider.value);
+    });
+
+    // Unlock & auto-start on first user interaction
+    function unlock() {
+      if (unlocked) return;
+      unlocked = true;
+      const startMuted = savedMute; // respect previous session preference
+      if (!startMuted) {
+        audio.play().then(() => setPlaying(true)).catch(() => {});
+      }
+      document.removeEventListener('click',   unlock);
+      document.removeEventListener('keydown', unlock);
+    }
+    document.addEventListener('click',   unlock);
+    document.addEventListener('keydown', unlock);
+
+    // Initial load (no auto-play yet — browser blocks it)
+    loadTrack(currentIdx, false);
+  })();
+  </script>
+</body>
+</html>
