@@ -1,10 +1,11 @@
 /**
- * Memory Grid - Rewritten as a puzzle game
+ * Memory Grid - Puzzle pathfinding game
  * 
  * Grid-based puzzle where:
  * - Start at top-left, goal at bottom-right
  * - Each cell contains a number (1-5)
- * - That number indicates how many cells you must move (up/down/left/right)
+ * - That number indicates the EXACT distance you can move from that cell
+ * - You can only move to cells at exactly that distance (Manhattan distance)
  * - Reach the goal in minimum moves
  */
 
@@ -37,7 +38,6 @@
 
   /**
    * Genera un grid con números 1-5
-   * Asegura que hay al menos un camino válido desde inicio a salida
    */
   function generateGrid() {
     const cfg = getConfig(gameState.level);
@@ -57,6 +57,26 @@
         gameState.grid[y][x] = num;
       }
     }
+  }
+
+  /**
+   * Calcula casillas válidas a una distancia exacta
+   * Manhattan distance = |x1-x2| + |y1-y2|
+   */
+  function getValidMovesFromCell(x, y, distance) {
+    const validMoves = [];
+    const size = gameState.gridSize;
+
+    for (let ny = 0; ny < size; ny++) {
+      for (let nx = 0; nx < size; nx++) {
+        const manhattan = Math.abs(nx - x) + Math.abs(ny - y);
+        if (manhattan === distance && !(nx === x && ny === y)) {
+          validMoves.push({ x: nx, y: ny });
+        }
+      }
+    }
+
+    return validMoves;
   }
 
   function createGridUI() {
@@ -79,7 +99,7 @@
         numberEl.textContent = gameState.grid[y][x];
         cell.appendChild(numberEl);
         
-        // Indicador de inicio/salida/posición actual
+        // Indicador de inicio/salida
         if (x === 0 && y === 0) {
           cell.classList.add('memorygrid-cell--start');
           const label = document.createElement('div');
@@ -119,84 +139,50 @@
       current.classList.add('memorygrid-cell--player');
     }
     
-    // Mostrar casillas válidas (adyacentes)
+    // Mostrar casillas válidas (a la distancia exacta del número actual)
     container.querySelectorAll('.memorygrid-cell--valid').forEach(c => {
       c.classList.remove('memorygrid-cell--valid');
     });
     
-    const validMoves = getValidMoves();
+    const currentNumber = gameState.grid[gameState.playerPos.y][gameState.playerPos.x];
+    const validMoves = getValidMovesFromCell(
+      gameState.playerPos.x,
+      gameState.playerPos.y,
+      currentNumber
+    );
+    
     validMoves.forEach(({ x, y }) => {
       const cell = container.querySelector(`[data-x="${x}"][data-y="${y}"]`);
       if (cell) cell.classList.add('memorygrid-cell--valid');
     });
   }
 
-  function getValidMoves() {
-    // Casillas adyacentes (arriba, abajo, izquierda, derecha)
-    const { x, y } = gameState.playerPos;
-    const moves = [];
-    
-    const adjacent = [
-      { x: x - 1, y: y }, // izquierda
-      { x: x + 1, y: y }, // derecha
-      { x: x, y: y - 1 }, // arriba
-      { x: x, y: y + 1 }  // abajo
-    ];
-    
-    adjacent.forEach(pos => {
-      if (pos.x >= 0 && pos.x < gameState.gridSize && 
-          pos.y >= 0 && pos.y < gameState.gridSize) {
-        moves.push(pos);
-      }
-    });
-    
-    return moves;
-  }
-
   function tryMove(x, y) {
     if (!gameState.active) return;
     
-    // Verificar que es una casilla adyacente
-    const validMoves = getValidMoves();
+    // Verificar que es una casilla válida a la distancia exacta
+    const currentNumber = gameState.grid[gameState.playerPos.y][gameState.playerPos.x];
+    const validMoves = getValidMovesFromCell(
+      gameState.playerPos.x,
+      gameState.playerPos.y,
+      currentNumber
+    );
+    
     const isValid = validMoves.some(m => m.x === x && m.y === y);
     
     if (!isValid) {
-      audioManager.play('miss');
-      return;
-    }
-    
-    const numInCell = gameState.grid[y][x];
-    const { x: px, y: py } = gameState.playerPos;
-    
-    // Calcular distancia requerida
-    const dx = Math.abs(x - px);
-    const dy = Math.abs(y - py);
-    const distance = dx + dy; // Manhattan distance
-    
-    // Mover según el número
-    let finalX = px;
-    let finalY = py;
-    
-    if (x < px) finalX -= numInCell; // Izquierda
-    else if (x > px) finalX += numInCell; // Derecha
-    else if (y < py) finalY -= numInCell; // Arriba
-    else if (y > py) finalY += numInCell; // Abajo
-    
-    // Validar límites
-    if (finalX < 0 || finalX >= gameState.gridSize ||
-        finalY < 0 || finalY >= gameState.gridSize) {
       audioManager.play('miss');
       gameState.mistakes++;
       updateMistakes();
       
       if (gameState.mistakes >= 1) {
-        endRound(false, '¡Saliste del tablero!');
+        endRound(false, '¡Movimiento inválido! Saliste del tablero.');
       }
       return;
     }
     
     // Movimiento válido
-    gameState.playerPos = { x: finalX, y: finalY };
+    gameState.playerPos = { x, y };
     gameState.moves++;
     gameState.path.push({ ...gameState.playerPos });
     
@@ -289,10 +275,12 @@
       updateStatus(`${message} — Puntuación final: ${gameState.score}`);
       
       // Guardar puntuación
-      Leaderboard.save('memorygrid', gameState.score, gameState.level - 1, {
-        movesNeeded: gameState.moves,
-        path: gameState.path.length
-      });
+      if (typeof Leaderboard !== 'undefined') {
+        Leaderboard.save('memorygrid', gameState.score, gameState.level - 1, {
+          movesNeeded: gameState.moves,
+          path: gameState.path.length
+        });
+      }
     }
   }
 
